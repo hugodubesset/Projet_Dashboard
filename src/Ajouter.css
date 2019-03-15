@@ -1,0 +1,27 @@
+.form{
+    color:white;
+    height: 408px;
+    width: 400px;
+    position: relative;
+    background-color: #374156;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 60px;
+    font-size: 10px;
+}
+
+.form2{
+    color:white;
+    height: 480px;
+    width: 400px;
+    position: relative;
+    background-color: #374156;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 60px;
+    font-size: 10px;
+}
+
+.titre{
+    text-align: center;
+}

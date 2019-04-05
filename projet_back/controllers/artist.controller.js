@@ -1,4 +1,8 @@
+const _=require("lodash");
+
 const Artist = require('../models/artist.model.js');
+
+
 
 // Create and Save a new Artist
 exports.create = (req, res) => {
@@ -164,3 +168,20 @@ exports.delete = (req, res) => {
             });
         });
 };
+
+exports.findFollowers = (req, res) => {
+    Artist.find({})
+        .then(artists => {
+            const followersOfArtists = _.map(artists, function(unArtiste){
+                var result = _.pick(unArtiste, ['Name', 'Followers']);
+                return result;
+            })
+            res.status(200).json(followersOfArtists);
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: err.message || 'Some error occurred while retrieving users.'
+            });
+        });
+};
+

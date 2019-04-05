@@ -8,4 +8,4 @@ const artists = new mongoose.Schema(
         Album: String
     });
 
-module.exports = mongoose.model('artist', artists);SS
+module.exports = mongoose.model('artist', artists);

@@ -10,20 +10,20 @@ export default class Ajouter extends React.Component {
     state = {
         //artists
         Name:'',
-        Birth:'',
-        Followers:'',
+        Birth:0,
+        Followers:0,
         Album:'',
         //albums
         Title:'',
-        Release:'',
+        Release:0,
         Genre:'',
         Cover_url:'',
         Tracks:'',
-        Title1:'',
         //tracks
-        Duration:'',
-        Listenings:'',
-        Likes:'',
+        Title1:'',
+        Duration:0,
+        Listenings:0,
+        Likes:0,
         Featuring:''
     }
 
@@ -142,7 +142,7 @@ export default class Ajouter extends React.Component {
                         <h4>Ajout d'un album:</h4>
                         <FormGroup>
                             <Label for="text">Titre</Label>
-                            <Input type="txt" placeholder="Ajouter le titre" name="Title" onChange={this.handleChange5}/>
+                            <Input type="text" placeholder="Ajouter le titre" name="Title" onChange={this.handleChange5}/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="number">Année de sortie</Label>

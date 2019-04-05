@@ -1,48 +1,76 @@
 import React, { PureComponent } from 'react';
-import './Widget.css';
+import PropTypes from 'prop-types';
 import {
-    AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
+    BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
+import { scaleOrdinal } from 'd3-scale';
+import { schemeCategory10 } from 'd3-scale-chromatic';
+import _ from 'lodash';
+import Axios from 'axios';
 
 
-const data = [
-    {
-        name: 'Page A', uv: 4000, pv: 2400, amt: 2400,
-    },
-    {
-        name: 'Page B', uv: 3000, pv: 1398, amt: 2210,
-    },
-    {
-        name: 'Page C', uv: 2000, pv: 9800, amt: 2290,
-    },
-    {
-        name: 'Page D', uv: 2780, pv: 3908, amt: 2000,
-    },
-];
+
+
+const colors = scaleOrdinal(schemeCategory10).range();
+
+
+const getPath = (x, y, width, height) => `M${x},${y + height}
+          C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3} ${x + width / 2}, ${y}
+          C${x + width / 2},${y + height / 3} ${x + 2 * width / 3},${y + height} ${x + width}, ${y + height}
+          Z`;
+
+const TriangleBar = (props) => {
+    const {
+        fill, x, y, width, height,
+    } = props;
+
+    return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
+};
+
+TriangleBar.propTypes = {
+    fill: PropTypes.string,
+    x: PropTypes.number,
+    y: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number,
+};
 
 export default class Widget2 extends PureComponent {
-    static jsfiddleUrl = 'https://jsfiddle.net/alidingling/c1rLyqj1/';
+    static jsfiddleUrl = 'https://jsfiddle.net/alidingling/rnywhbu8/';
+
+
+    state = {
+        artistsFollowers: []
+    }
+    componentDidMount() {
+        Axios.get('http://localhost:3000/artist/followers')
+            .then(res => {
+                const artistsFollowers = res.data;
+                this.setState({artistsFollowers});
+            })
+    }
 
     render() {
         return (
-            <div className="widget">
-            <AreaChart
-                width={1200}
-                height={800}
-                data={data}
+            <BarChart
+                width={500}
+                height={300}
+                data={this.state.artistsFollowers}
                 margin={{
-                    top: 100, right: 70, left: 0, bottom: 100,
+                    top: 20, right: 30, left: 20, bottom: 5,
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
-                <Tooltip />
-                <Area type="monotone" dataKey="uv" stackId="1" stroke="#8884d8" fill="#8884d8" />
-                <Area type="monotone" dataKey="pv" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
-                <Area type="monotone" dataKey="amt" stackId="1" stroke="#ffc658" fill="#ffc658" />
-            </AreaChart>
-            </div>
+                <Bar dataKey="followers" fill="#8884d8" shape={<TriangleBar />} label={{ position: 'top' }}>
+                    {
+                        this.state.artistsFollowers.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+                        ))
+                    }
+                </Bar>
+            </BarChart>
         );
     }
 }

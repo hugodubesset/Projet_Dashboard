@@ -1,21 +1,21 @@
 var express = require('express');
 var router = express.Router();
 // we import our track controller
-var track = require('../controllers/track.controller');
+var tracks = require('../controllers/track.controller');
 
 /* GET one track */
-router.get('/:trackId', track.findOne);
+router.get('/:trackId', tracks.findOne);
 
 /* DELETE  one track */
-router.delete('/:trackId', track.delete);
+router.delete('/:trackId', tracks.delete);
 
 /* update  one track */
-router.post('/:trackId', track.update);
+router.post('/:trackId', tracks.update);
 
 /* create  one track */
-router.put('/', track.create);
+router.put('/', tracks.create);
 
 /* GET tracks listing. */
-router.get('/', track.findAll);
+router.get('/', tracks.findAll);
 
 module.exports = router;

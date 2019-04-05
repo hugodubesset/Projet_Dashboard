@@ -20,22 +20,22 @@ exports.create = (req, res) => {
             message: 'Followers can not be empty'
         });
     }
-    if (!req.body.Albums) {
+    if (!req.body.Album) {
         return res.status(400).send({
             message: 'Albums can not be empty'
         });
     }
 
     // Create a new artist
-    const artist = new Artist({
+    const artists = new Artist({
         Name: req.body.Name,
         Birth: req.body.Birth,
         Followers: req.body.Followers,
-        Albums: req.body.Albums || ''
+        Album: req.body.Album || ''
     });
 
     // Save artist in the database
-    artist
+    artists
         .save()
         .then(data => {
             // we wait for insertion to be complete and we send the newly artist integrated
@@ -53,8 +53,8 @@ exports.create = (req, res) => {
 // Retrieve and return all artists from the database.
 exports.findAll = (req, res) => {
     Artist.find()
-        .then(artist => {
-            res.send(artist);
+        .then(artists => {
+            res.send(artists);
         })
         .catch(err => {
             res.status(500).send({
@@ -66,13 +66,13 @@ exports.findAll = (req, res) => {
 // Find a single artist with a artistId
 exports.findOne = (req, res) => {
     Artist.findById(req.params.artistId)
-        .then(artist => {
-            if (!artist) {
+        .then(artists => {
+            if (!artists) {
                 return res.status(404).send({
                     message: 'artist not found with id ' + req.params.artistId
                 });
             }
-            res.send(artist);
+            res.send(artists);
         })
         .catch(err => {
             if (err.kind === 'ObjectId') {
@@ -104,7 +104,7 @@ exports.update = (req, res) => {
             message: 'Followers can not be empty'
         });
     }
-    if (!req.body.Albums) {
+    if (!req.body.Album) {
         return res.status(400).send({
             message: 'Albums can not be empty'
         });
@@ -118,17 +118,17 @@ exports.update = (req, res) => {
             Name: req.body.Name,
             Birth: req.body.Birth,
             Followers: req.body.Followers,
-            Albums: req.body.Albums || ''
+            Album: req.body.Album || ''
         },
         { new: true }
     )
-        .then(artist => {
-            if (!artist) {
+        .then(artists => {
+            if (!artists) {
                 return res.status(404).send({
                     message: 'artist not found with id ' + req.params.artistId
                 });
             }
-            res.send(artist);
+            res.send(artists);
         })
         .catch(err => {
             if (err.kind === 'ObjectId') {
@@ -145,8 +145,8 @@ exports.update = (req, res) => {
 // Delete a artist with the specified artistId in the request
 exports.delete = (req, res) => {
     Artist.findByIdAndRemove(req.params.artistId)
-        .then(artist => {
-            if (!artist) {
+        .then(artists => {
+            if (!artists) {
                 return res.status(404).send({
                     message: 'artist not found with id ' + req.params.artistId
                 });

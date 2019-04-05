@@ -1,15 +1,11 @@
 const mongoose = require('mongoose');
 
-const artistSchema = new mongoose.Schema(
+const artists = new mongoose.Schema(
     {
         Name: String,
-        Birth: String,
-        Followers: String,
-        Albums: String
-    },
-    {
-        timestamps: true
-    }
-);
+        Birth: Number,
+        Followers: Number,
+        Album: String
+    });
 
-module.exports = mongoose.model('Artist', artistSchema);
+module.exports = mongoose.model('artist', artists);SS

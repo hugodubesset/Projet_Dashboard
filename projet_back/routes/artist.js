@@ -1,21 +1,21 @@
 var express = require('express');
 var router = express.Router();
 // we import our album controller
-var artist = require('../controllers/artist.controller');
+var artists = require('../controllers/artist.controller');
 
 /* GET one artist */
-router.get('/:artistId', artist.findOne);
+router.get('/:artistId', artists.findOne);
 
 /* DELETE  one artist */
-router.delete('/:artistId', artist.delete);
+router.delete('/:artistId', artists.delete);
 
 /* update  one artist */
-router.post('/:artistId', artist.update);
+router.post('/:artistId', artists.update);
 
 /* create  one artist */
-router.put('/', artist.create);
+router.put('/', artists.create);
 
 /* GET artists listing. */
-router.get('/', artist.findAll);
+router.get('/', artists.findAll);
 
 module.exports = router;

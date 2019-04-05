@@ -32,7 +32,7 @@ exports.create = (req, res) => {
     }
 
     // Create a new Album
-    const album = new Album({
+    const albums = new Album({
         Title: req.body.Title,
         Release: req.body.Release,
         Genre: req.body.Genre,
@@ -41,7 +41,7 @@ exports.create = (req, res) => {
     });
 
     // Save Album in the database
-    album.save().then(data => {
+    albums.save().then(data => {
             // we wait for insertion to be complete and we send the newly album integrated
             res.send(data);
         })
@@ -57,8 +57,8 @@ exports.create = (req, res) => {
 // Retrieve and return all Albums from the database.
 exports.findAll = (req, res) => {
     Album.find()
-        .then(album => {
-            res.send(album);
+        .then(albums => {
+            res.send(albums);
         })
         .catch(err => {
             res.status(500).send({
@@ -70,13 +70,13 @@ exports.findAll = (req, res) => {
 // Find a single Album with a AlbumId
 exports.findOne = (req, res) => {
     Album.findById(req.params.albumId)
-        .then(album => {
-            if (!album) {
+        .then(albums => {
+            if (!albums) {
                 return res.status(404).send({
                     message: 'Album not found with id ' + req.params.albumId
                 });
             }
-            res.send(album);
+            res.send(albums);
         })
         .catch(err => {
             if (err.kind === 'ObjectId') {
@@ -131,13 +131,13 @@ exports.update = (req, res) => {
         },
         { new: true }
     )
-        .then(album => {
-            if (!album) {
+        .then(albums => {
+            if (!albums) {
                 return res.status(404).send({
                     message: 'Album not found with id ' + req.params.albumId
                 });
             }
-            res.send(album);
+            res.send(albums);
         })
         .catch(err => {
             if (err.kind === 'ObjectId') {
@@ -154,8 +154,8 @@ exports.update = (req, res) => {
 // Delete a Album with the specified AlbumId in the request
 exports.delete = (req, res) => {
     Album.findByIdAndRemove(req.params.albumId)
-        .then(album => {
-            if (!album) {
+        .then(albums => {
+            if (!albums) {
                 return res.status(404).send({
                     message: 'Album not found with id ' + req.params.albumId
                 });

@@ -3,11 +3,11 @@ const Track = require('../models/track.model.js');
 // Create and Save a new Track
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.Title) {
-        // If Title is not present in body reject the request by
+    if (!req.body.Title1) {
+        // If Title1 is not present in body reject the request by
         // sending the appropriate http code
         return res.status(400).send({
-            message: 'Title can not be empty'
+            message: 'Title1 can not be empty'
         });
     }
     if (!req.body.Duration) {
@@ -32,8 +32,8 @@ exports.create = (req, res) => {
     }
 
     // Create a new Track
-    const track = new Track({
-        Title: req.body.Title,
+    const tracks = new Track({
+        Title1: req.body.Title1,
         Duration: req.body.Duration,
         Listenings: req.body.Listenings,
         Likes: req.body.Likes,
@@ -41,7 +41,7 @@ exports.create = (req, res) => {
     });
 
     // Save Track in the database
-    track
+    tracks
         .save()
         .then(data => {
             // we wait for insertion to be complete and we send the newly track integrated
@@ -59,8 +59,8 @@ exports.create = (req, res) => {
 // Retrieve and return all Tracks from the database.
 exports.findAll = (req, res) => {
     Track.find()
-        .then(track => {
-            res.send(track);
+        .then(tracks => {
+            res.send(tracks);
         })
         .catch(err => {
             res.status(500).send({
@@ -72,13 +72,13 @@ exports.findAll = (req, res) => {
 // Find a single Track with a TrackId
 exports.findOne = (req, res) => {
     Track.findById(req.params.trackId)
-        .then(track => {
-            if (!track) {
+        .then(tracks => {
+            if (!tracks) {
                 return res.status(404).send({
                     message: 'Track not found with id ' + req.params.trackId
                 });
             }
-            res.send(track);
+            res.send(tracks);
         })
         .catch(err => {
             if (err.kind === 'ObjectId') {
@@ -95,9 +95,9 @@ exports.findOne = (req, res) => {
 // Update a Track identified by the trackId in the request
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body.Title) {
+    if (!req.body.Title1) {
         return res.status(400).send({
-            message: 'Title can not be empty'
+            message: 'Title1 can not be empty'
         });
     }
     if (!req.body.Duration) {
@@ -125,7 +125,7 @@ exports.update = (req, res) => {
     Track.findByIdAndUpdate(
         req.params.trackId,
         {
-            Title: req.body.Title,
+            Title1: req.body.Title1,
             Duration: req.body.Duration,
             Listenings: req.body.Listenings,
             Likes: req.body.Likes,
@@ -133,13 +133,13 @@ exports.update = (req, res) => {
         },
         { new: true }
     )
-        .then(track => {
-            if (!track) {
+        .then(tracks => {
+            if (!tracks) {
                 return res.status(404).send({
                     message: 'track not found with id ' + req.params.trackId
                 });
             }
-            res.send(track);
+            res.send(tracks);
         })
         .catch(err => {
             if (err.kind === 'ObjectId') {
@@ -156,8 +156,8 @@ exports.update = (req, res) => {
 // Delete a track with the specified trackId in the request
 exports.delete = (req, res) => {
     Track.findByIdAndRemove(req.params.trackId)
-        .then(track => {
-            if (!track) {
+        .then(tracks => {
+            if (!tracks) {
                 return res.status(404).send({
                     message: 'track not found with id ' + req.params.trackId
                 });

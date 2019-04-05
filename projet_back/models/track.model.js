@@ -1,16 +1,13 @@
 const mongoose = require('mongoose');
 
-const trackSchema = new mongoose.Schema(
+const tracks = new mongoose.Schema(
     {
-        Title: String,
-        Duration: String,
-        Listenings: String,
-        Likes: String,
+        Title1: String,
+        Duration: Number,
+        Listenings: Number,
+        Likes: Number,
         Featuring: String
     },
-    {
-        timestamps: true
-    }
 );
 
-module.exports = mongoose.model('Track', trackSchema);
+module.exports = mongoose.model('Track', tracks);
